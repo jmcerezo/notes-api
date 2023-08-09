@@ -6,6 +6,7 @@ import {
 import { InjectModel } from '@nestjs/mongoose';
 import { Note } from './schemas/note.schema';
 import mongoose from 'mongoose';
+import { User } from 'src/auth/schemas/user.schema';
 
 @Injectable()
 export class NoteService {
@@ -13,8 +14,10 @@ export class NoteService {
     @InjectModel(Note.name) private noteModel: mongoose.Model<Note>,
   ) {}
 
-  async createNote(note: Note): Promise<Note> {
-    const createdNote = await this.noteModel.create(note);
+  async createNote(note: Note, user: User): Promise<Note> {
+    const data = Object.assign(note, { user: user._id });
+
+    const createdNote = await this.noteModel.create(data);
 
     return createdNote;
   }

@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  Req,
   Query,
   UseGuards,
 } from '@nestjs/common';
@@ -21,8 +22,11 @@ export class NoteController {
   constructor(private noteService: NoteService) {}
 
   @Post()
-  async createNote(@Body() createNoteDto: CreateNoteDto): Promise<Note> {
-    return this.noteService.createNote(createNoteDto);
+  async createNote(
+    @Body() createNoteDto: CreateNoteDto,
+    @Req() req,
+  ): Promise<Note> {
+    return this.noteService.createNote(createNoteDto, req.user);
   }
 
   @Get()
