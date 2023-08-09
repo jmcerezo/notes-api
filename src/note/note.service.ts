@@ -6,8 +6,6 @@ import {
 import { InjectModel } from '@nestjs/mongoose';
 import { Note } from './schemas/note.schema';
 import mongoose from 'mongoose';
-import { CreateNoteDto } from './dto/create-note.dto';
-import { UpdateNoteDto } from './dto/update-note.dto';
 
 @Injectable()
 export class NoteService {
@@ -15,8 +13,8 @@ export class NoteService {
     @InjectModel(Note.name) private noteModel: mongoose.Model<Note>,
   ) {}
 
-  async createNote(createNoteDto: CreateNoteDto): Promise<Note> {
-    const createdNote = await this.noteModel.create(createNoteDto);
+  async createNote(note: Note): Promise<Note> {
+    const createdNote = await this.noteModel.create(note);
 
     return createdNote;
   }
@@ -69,8 +67,8 @@ export class NoteService {
     return note;
   }
 
-  async updateNote(id: string, updateNoteDto: UpdateNoteDto): Promise<Note> {
-    return await this.noteModel.findByIdAndUpdate(id, updateNoteDto, {
+  async updateNote(id: string, note: Note): Promise<Note> {
+    return await this.noteModel.findByIdAndUpdate(id, note, {
       new: true,
       runValidators: true,
     });
