@@ -7,13 +7,16 @@ import {
   Post,
   Put,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { NoteService } from './note.service';
 import { CreateNoteDto } from './dto/create-note.dto';
 import { Note } from './schemas/note.schema';
 import { UpdateNoteDto } from './dto/update-note.dto';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('notes')
+@UseGuards(AuthGuard('jwt'))
 export class NoteController {
   constructor(private noteService: NoteService) {}
 
