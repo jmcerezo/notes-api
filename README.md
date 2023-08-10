@@ -24,7 +24,12 @@
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+CRUD API with JWT and Passport authentication
+
+## Features
+
+* [Swagger UI](https://swagger.io/tools/swagger-ui/)
+* [MongoDB](https://www.mongodb.com/)
 
 ## Installation
 
