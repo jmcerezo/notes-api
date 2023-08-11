@@ -1,4 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { ApiProperty } from '@nestjs/swagger';
 import { Document } from 'mongoose';
 
 @Schema({ timestamps: true })
@@ -11,6 +12,14 @@ export class User extends Document {
 
   @Prop()
   password: string;
+
+  @ApiProperty()
+  @Prop({ default: null })
+  resetPasswordOtp: number;
+
+  @ApiProperty()
+  @Prop({ default: null })
+  resetOtpExpiry: Date;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

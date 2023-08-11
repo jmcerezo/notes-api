@@ -1,11 +1,19 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  BadRequestException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from './schemas/user.schema';
 import mongoose from 'mongoose';
-import { SignUpDto } from './dto/signup.dto';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
+import { SignUpDto } from './dto/signup.dto';
 import { LoginDto } from './dto/login.dto';
+import { ForgotPasswordDto } from './dto/forgot-password.dto';
+import { ResetPasswordDto } from './dto/reset-password.dto';
+import { addMinutes } from 'date-fns';
+import { Otp, Token } from './return-types';
 
 @Injectable()
 export class AuthService {
@@ -14,7 +22,14 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async signUp(signUpDto: SignUpDto): Promise<{ token: string }> {
+  private generateOtp() {
+    return {
+      resetPasswordOtp: Math.floor(10000000 + Math.random() * 90000000),
+      resetOtpExpiry: addMinutes(Date.now(), 5),
+    };
+  }
+
+  async signUp(signUpDto: SignUpDto): Promise<Token> {
     const { name, email, password } = signUpDto;
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -30,7 +45,7 @@ export class AuthService {
     return { token };
   }
 
-  async login(loginDto: LoginDto): Promise<{ token: string }> {
+  async login(loginDto: LoginDto): Promise<Token> {
     const { email, password } = loginDto;
 
     const user = await this.userModel.findOne({ email });
@@ -48,5 +63,41 @@ export class AuthService {
     const token = await this.jwtService.signAsync({ id: user._id });
 
     return { token };
+  }
+
+  async forgotPassword(forgotPasswordDto: ForgotPasswordDto): Promise<Otp> {
+    const { email } = forgotPasswordDto;
+
+    const user = await this.userModel.findOne({ email });
+
+    if (!user) {
+      throw new BadRequestException('Invalid email address.');
+    }
+
+    const { resetPasswordOtp, resetOtpExpiry } = this.generateOtp();
+
+    await user.updateOne({ resetPasswordOtp, resetOtpExpiry });
+
+    return { resetPasswordOtp, resetOtpExpiry };
+  }
+
+  async resetPassword(resetPasswordDto: ResetPasswordDto): Promise<string> {
+    const { resetPasswordOtp, newPassword } = resetPasswordDto;
+
+    const user = await this.userModel.findOne({ resetPasswordOtp });
+
+    if (!user || user.resetOtpExpiry < new Date()) {
+      throw new BadRequestException('Your OTP is invalid.');
+    }
+
+    const password = await bcrypt.hash(newPassword, 10);
+
+    await user.updateOne({
+      password,
+      resetPasswordOtp: null,
+      resetOtpExpiry: null,
+    });
+
+    return user._id;
   }
 }
