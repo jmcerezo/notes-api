@@ -7,6 +7,7 @@ import { NoteModule } from './note/note.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  const port = process.env.PORT;
 
   const config = new DocumentBuilder()
     .setTitle('Notes API')
@@ -23,6 +24,6 @@ async function bootstrap() {
 
   app.useGlobalPipes(new ValidationPipe());
 
-  await app.listen(3000);
+  await app.listen(port);
 }
 bootstrap();
