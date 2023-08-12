@@ -20,6 +20,7 @@ import {
   ApiBearerAuth,
   ApiCreatedResponse,
   ApiOkResponse,
+  ApiQuery,
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
@@ -46,8 +47,10 @@ export class NoteController {
   @HttpCode(200)
   @ApiOkResponse({ type: Note })
   @ApiUnauthorizedResponse({ description: 'Unauthorized.' })
-  async getAllNotes(@Query() query): Promise<Note[]> {
-    return this.noteService.getAllNotes(query);
+  @ApiQuery({ name: 'keyword', type: String, required: false })
+  @ApiQuery({ name: 'page', type: Number, required: false })
+  async getAllNotes(@Req() req, @Query() query): Promise<Note[]> {
+    return this.noteService.getAllNotes(req.user, query);
   }
 
   @Get(':id')

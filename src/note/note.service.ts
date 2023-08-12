@@ -22,7 +22,7 @@ export class NoteService {
     return createdNote;
   }
 
-  async getAllNotes(query): Promise<Note[]> {
+  async getAllNotes(user: User, query: any): Promise<Note[]> {
     const keyword = query.keyword
       ? {
           $or: [
@@ -48,6 +48,8 @@ export class NoteService {
 
     const notes = await this.noteModel
       .find({ ...keyword })
+      .where('user')
+      .equals(user._id)
       .limit(resPerPage)
       .skip(skip);
 
