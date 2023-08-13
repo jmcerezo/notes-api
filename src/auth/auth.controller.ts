@@ -38,7 +38,7 @@ export class AuthController {
   async forgotPassword(
     @Body() forgotPasswordDto: ForgotPasswordDto,
   ): Promise<Otp> {
-    return this.authService.forgotPassword(forgotPasswordDto);
+    return await this.authService.forgotPassword(forgotPasswordDto);
   }
 
   @Post('reset-password')
@@ -47,6 +47,6 @@ export class AuthController {
   async resetPassword(
     @Body() resetPasswordDto: ResetPasswordDto,
   ): Promise<string> {
-    return this.authService.resetPassword(resetPasswordDto);
+    return await this.authService.resetPassword(resetPasswordDto);
   }
 }

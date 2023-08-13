@@ -40,7 +40,7 @@ export class NoteController {
     @Body() createNoteDto: CreateNoteDto,
     @Req() req,
   ): Promise<Note> {
-    return this.noteService.createNote(createNoteDto, req.user);
+    return await this.noteService.createNote(createNoteDto, req.user);
   }
 
   @Get()
@@ -50,7 +50,7 @@ export class NoteController {
   @ApiQuery({ name: 'keyword', type: String, required: false })
   @ApiQuery({ name: 'page', type: Number, required: false })
   async getAllNotes(@Req() req, @Query() query): Promise<Note[]> {
-    return this.noteService.getAllNotes(req.user, query);
+    return await this.noteService.getAllNotes(req.user, query);
   }
 
   @Get(':id')
@@ -58,7 +58,7 @@ export class NoteController {
   @ApiOkResponse({ type: Note })
   @ApiUnauthorizedResponse({ description: 'Unauthorized.' })
   async getNoteById(@Param('id') id: string): Promise<Note> {
-    return this.noteService.getNoteById(id);
+    return await this.noteService.getNoteById(id);
   }
 
   @Put(':id')
@@ -69,7 +69,7 @@ export class NoteController {
     @Param('id') id: string,
     @Body() updateNoteDto: UpdateNoteDto,
   ): Promise<Note> {
-    return this.noteService.updateNote(id, updateNoteDto);
+    return await this.noteService.updateNote(id, updateNoteDto);
   }
 
   @Delete(':id')
@@ -77,6 +77,6 @@ export class NoteController {
   @ApiOkResponse({ type: Note })
   @ApiUnauthorizedResponse({ description: 'Unauthorized.' })
   async deleteNote(@Param('id') id: string): Promise<Note> {
-    return this.noteService.deleteNote(id);
+    return await this.noteService.deleteNote(id);
   }
 }
