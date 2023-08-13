@@ -42,7 +42,7 @@ export class NoteService {
         }
       : {};
 
-    const resPerPage = 10;
+    const resPerPage = 25;
     const currentPage = Number(query.page) || 1;
     const skip = resPerPage * (currentPage - 1);
 
