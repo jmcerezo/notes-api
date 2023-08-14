@@ -20,6 +20,7 @@ async function bootstrap() {
   });
   SwaggerModule.setup('/', app, document, {
     swaggerOptions: { tagsSorter: 'alpha', operationsSorter: 'alpha' },
+    customSiteTitle: 'Notes API - Swagger UI',
   });
 
   app.useGlobalPipes(new ValidationPipe());
