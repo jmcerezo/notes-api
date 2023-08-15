@@ -67,7 +67,7 @@ export class AuthService {
       throw new UnauthorizedException('Incorrect email or password.');
     }
 
-    const token = await this.jwtService.signAsync({ id: user._id });
+    const token = this.jwtService.sign({ id: user._id });
 
     return { token };
   }
