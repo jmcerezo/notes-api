@@ -81,11 +81,11 @@ export class AuthService {
       throw new BadRequestException('Invalid email address.');
     }
 
-    const { resetPasswordOtp, resetOtpExpiry } = this.generateOtp();
+    const otp = this.generateOtp();
 
-    await user.updateOne({ resetPasswordOtp, resetOtpExpiry });
+    await this.userModel.findByIdAndUpdate(user._id, otp);
 
-    return { resetPasswordOtp, resetOtpExpiry };
+    return otp;
   }
 
   async resetPassword(resetPasswordDto: ResetPasswordDto): Promise<string> {
@@ -99,11 +99,9 @@ export class AuthService {
 
     const password = await bcrypt.hash(newPassword, 10);
 
-    await user.updateOne({
-      password,
-      resetPasswordOtp: null,
-      resetOtpExpiry: null,
-    });
+    const update = { password, resetPasswordOtp: null, resetOtpExpiry: null };
+
+    await this.userModel.findByIdAndUpdate(user._id, update);
 
     return user._id;
   }
