@@ -50,7 +50,7 @@ export class NoteController {
   @ApiQuery({ name: 'keyword', type: String, required: false })
   @ApiQuery({ name: 'page', type: Number, required: false })
   async getAllNotes(@Req() req, @Query() query): Promise<Note[]> {
-    return await this.noteService.getAllNotes(req.user, query);
+    return await this.noteService.getAllNotes(req.user._id, query);
   }
 
   @Get(':id')

@@ -6,7 +6,7 @@ import {
 import { InjectModel } from '@nestjs/mongoose';
 import { Note } from './schemas/note.schema';
 import mongoose from 'mongoose';
-import { User } from 'src/auth/schemas/user.schema';
+import { User } from '../auth/schemas/user.schema';
 
 @Injectable()
 export class NoteService {
@@ -22,7 +22,7 @@ export class NoteService {
     return createdNote;
   }
 
-  async getAllNotes(user: User, query: any): Promise<Note[]> {
+  async getAllNotes(user_id: string, query: any): Promise<Note[]> {
     const keyword = query.keyword
       ? {
           $or: [
@@ -49,7 +49,7 @@ export class NoteService {
     const notes = await this.noteModel
       .find({ ...keyword })
       .where('user')
-      .equals(user._id)
+      .equals(user_id)
       .limit(resPerPage)
       .skip(skip);
 
