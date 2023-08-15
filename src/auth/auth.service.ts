@@ -2,6 +2,7 @@ import {
   Injectable,
   BadRequestException,
   UnauthorizedException,
+  ConflictException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from './schemas/user.schema';
@@ -34,15 +35,21 @@ export class AuthService {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const user = await this.userModel.create({
-      name,
-      email,
-      password: hashedPassword,
-    });
+    try {
+      const user = await this.userModel.create({
+        name,
+        email,
+        password: hashedPassword,
+      });
 
-    const token = await this.jwtService.signAsync({ id: user._id });
+      const token = this.jwtService.sign({ id: user._id });
 
-    return { token };
+      return { token };
+    } catch (error) {
+      if (error.code === 11000) {
+        throw new ConflictException('This email is already registered.');
+      }
+    }
   }
 
   async login(loginDto: LoginDto): Promise<Token> {
