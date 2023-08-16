@@ -4,7 +4,8 @@ import { SignUpDto } from './dto/signup.dto';
 import { LoginDto } from './dto/login.dto';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
-import { Otp, Token } from './return-types';
+import { Otp, JwtToken } from './return-types';
+import { User } from './schemas/user.schema';
 import {
   ApiCreatedResponse,
   ApiOkResponse,
@@ -19,16 +20,16 @@ export class AuthController {
 
   @Post('signup')
   @HttpCode(201)
-  @ApiCreatedResponse({ type: Token })
-  async signUp(@Body() signUpDto: SignUpDto): Promise<Token> {
+  @ApiCreatedResponse({ type: JwtToken })
+  async signUp(@Body() signUpDto: SignUpDto): Promise<JwtToken> {
     return await this.authService.signUp(signUpDto);
   }
 
   @Post('login')
   @HttpCode(200)
-  @ApiOkResponse({ type: Token })
+  @ApiOkResponse({ type: JwtToken })
   @ApiUnauthorizedResponse({ description: 'Incorrect email or password.' })
-  async login(@Body() loginDto: LoginDto): Promise<Token> {
+  async login(@Body() loginDto: LoginDto): Promise<JwtToken> {
     return await this.authService.login(loginDto);
   }
 
@@ -46,7 +47,7 @@ export class AuthController {
   @ApiOkResponse()
   async resetPassword(
     @Body() resetPasswordDto: ResetPasswordDto,
-  ): Promise<string> {
+  ): Promise<User> {
     return await this.authService.resetPassword(resetPasswordDto);
   }
 }

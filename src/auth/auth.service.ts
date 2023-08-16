@@ -14,7 +14,7 @@ import { LoginDto } from './dto/login.dto';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
 import { addMinutes } from 'date-fns';
-import { Otp, Token } from './return-types';
+import { Otp, JwtToken } from './return-types';
 
 @Injectable()
 export class AuthService {
@@ -30,7 +30,7 @@ export class AuthService {
     };
   }
 
-  async signUp(signUpDto: SignUpDto): Promise<Token> {
+  async signUp(signUpDto: SignUpDto): Promise<JwtToken> {
     const { name, email, password } = signUpDto;
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -52,7 +52,7 @@ export class AuthService {
     }
   }
 
-  async login(loginDto: LoginDto): Promise<Token> {
+  async login(loginDto: LoginDto): Promise<JwtToken> {
     const { email, password } = loginDto;
 
     const user = await this.userModel.findOne({ email });
@@ -88,7 +88,7 @@ export class AuthService {
     return otp;
   }
 
-  async resetPassword(resetPasswordDto: ResetPasswordDto): Promise<string> {
+  async resetPassword(resetPasswordDto: ResetPasswordDto): Promise<User> {
     const { resetPasswordOtp, newPassword } = resetPasswordDto;
 
     const user = await this.userModel.findOne({ resetPasswordOtp });
@@ -103,6 +103,6 @@ export class AuthService {
 
     await this.userModel.findByIdAndUpdate(user._id, update);
 
-    return user._id;
+    return user;
   }
 }
