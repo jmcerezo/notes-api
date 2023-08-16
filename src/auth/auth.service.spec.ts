@@ -150,7 +150,7 @@ describe('AuthService', () => {
       newPassword: 'Password123',
     };
 
-    it('should return user id', async () => {
+    it('should reset the password of user', async () => {
       const updatedUser = { ...mockUser, ...resetPasswordDto };
 
       jest.spyOn(userModel, 'findOne').mockResolvedValue(mockUser);
@@ -159,7 +159,7 @@ describe('AuthService', () => {
       const result = await authService.resetPassword(resetPasswordDto);
 
       expect(bcrypt.hash).toHaveBeenCalled();
-      expect(result).toEqual(mockUser._id);
+      expect(result).toEqual(mockUser);
     });
 
     it('should throw BadRequestException if otp is invalid', async () => {

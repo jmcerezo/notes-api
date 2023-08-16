@@ -83,7 +83,7 @@ describe('AuthController', () => {
   });
 
   describe('reset-password', () => {
-    it('should return a user id', async () => {
+    it('should reset the password of user', async () => {
       const resetPasswordDto = {
         newPassword: 'Password123',
         resetPasswordOtp: 12345678,
