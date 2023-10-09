@@ -50,6 +50,7 @@ export class NoteService {
       .find({ ...keyword })
       .where('user')
       .equals(user_id)
+      .sort({ createdAt: -1 })
       .limit(resPerPage)
       .skip(skip);
 

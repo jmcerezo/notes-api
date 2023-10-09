@@ -73,8 +73,10 @@ describe('NoteService', () => {
           ({
             where: () => ({
               equals: () => ({
-                limit: () => ({
-                  skip: jest.fn().mockResolvedValue([mockNote]),
+                sort: () => ({
+                  limit: () => ({
+                    skip: jest.fn().mockResolvedValue([mockNote]),
+                  }),
                 }),
               }),
             }),
