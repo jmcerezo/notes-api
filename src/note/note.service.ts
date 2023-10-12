@@ -42,17 +42,11 @@ export class NoteService {
         }
       : {};
 
-    const resPerPage = 25;
-    const currentPage = Number(query.page) || 1;
-    const skip = resPerPage * (currentPage - 1);
-
     const notes = await this.noteModel
       .find({ ...keyword })
       .where('user')
       .equals(user_id)
-      .sort({ createdAt: -1 })
-      .limit(resPerPage)
-      .skip(skip);
+      .sort({ createdAt: -1 });
 
     return notes;
   }

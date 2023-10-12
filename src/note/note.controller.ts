@@ -48,7 +48,6 @@ export class NoteController {
   @ApiOkResponse({ type: Note })
   @ApiUnauthorizedResponse({ description: 'Unauthorized.' })
   @ApiQuery({ name: 'keyword', type: String, required: false })
-  @ApiQuery({ name: 'page', type: Number, required: false })
   async getAllNotes(@Req() req, @Query() query): Promise<Note[]> {
     return await this.noteService.getAllNotes(req.user._id, query);
   }
