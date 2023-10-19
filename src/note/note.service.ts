@@ -66,13 +66,24 @@ export class NoteService {
   }
 
   async updateNote(id: string, note: Note): Promise<Note> {
-    return await this.noteModel.findByIdAndUpdate(id, note, {
+    const updatedNote = await this.noteModel.findByIdAndUpdate(id, note, {
       new: true,
-      runValidators: true,
     });
+
+    if (!updatedNote) {
+      throw new NotFoundException("Note doesn't exist.");
+    }
+
+    return updatedNote;
   }
 
   async deleteNote(id: string): Promise<Note> {
-    return await this.noteModel.findByIdAndDelete(id);
+    const deletedNote = await this.noteModel.findByIdAndDelete(id);
+
+    if (!deletedNote) {
+      throw new NotFoundException("Note doesn't exist.");
+    }
+
+    return deletedNote;
   }
 }
