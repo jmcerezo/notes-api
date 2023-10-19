@@ -56,7 +56,7 @@ describe('AuthService', () => {
     };
 
     it('should register the new user', async () => {
-      jest.spyOn(bcrypt, 'hash').mockResolvedValue('hashedPassword');
+      jest.spyOn(bcrypt, 'hash').mockResolvedValue('hashedPassword' as never);
       jest
         .spyOn(userModel, 'create')
         .mockImplementation(() => Promise.resolve(mockUser).then());
@@ -88,7 +88,7 @@ describe('AuthService', () => {
 
     it('should login the user and return the token', async () => {
       jest.spyOn(userModel, 'findOne').mockResolvedValue(mockUser);
-      jest.spyOn(bcrypt, 'compare').mockResolvedValue(true);
+      jest.spyOn(bcrypt, 'compare').mockResolvedValue(true as never);
       jest.spyOn(jwtService, 'sign').mockReturnValue(token);
 
       const result = await authService.login(loginDto);
@@ -107,7 +107,7 @@ describe('AuthService', () => {
     it('should throw incorrect password error', async () => {
       jest.spyOn(userModel, 'findOne').mockResolvedValue(null);
       jest.spyOn(userModel, 'findOne').mockResolvedValue(mockUser);
-      jest.spyOn(bcrypt, 'compare').mockResolvedValue(false);
+      jest.spyOn(bcrypt, 'compare').mockResolvedValue(false as never);
 
       expect(authService.login(loginDto)).rejects.toThrow(
         UnauthorizedException,
