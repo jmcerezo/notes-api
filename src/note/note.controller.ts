@@ -11,11 +11,11 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { NoteService } from './note.service';
-import { CreateNoteDto } from './dto/create-note.dto';
-import { Note } from './schemas/note.schema';
-import { UpdateNoteDto } from './dto/update-note.dto';
 import { AuthGuard } from '@nestjs/passport';
+import { NoteService } from './note.service';
+import { Note } from './schemas/note.schema';
+import { CreateNoteDto } from './dto/create-note.dto';
+import { UpdateNoteDto } from './dto/update-note.dto';
 import {
   ApiBearerAuth,
   ApiCreatedResponse,
@@ -38,7 +38,7 @@ export class NoteController {
   @ApiUnauthorizedResponse({ description: 'Unauthorized.' })
   async createNote(
     @Body() createNoteDto: CreateNoteDto,
-    @Req() req,
+    @Req() req: any,
   ): Promise<Note> {
     return await this.noteService.createNote(createNoteDto, req.user);
   }
@@ -48,7 +48,7 @@ export class NoteController {
   @ApiOkResponse({ type: Note })
   @ApiUnauthorizedResponse({ description: 'Unauthorized.' })
   @ApiQuery({ name: 'keyword', type: String, required: false })
-  async getAllNotes(@Req() req, @Query() query): Promise<Note[]> {
+  async getAllNotes(@Req() req: any, @Query() query: any): Promise<Note[]> {
     return await this.noteService.getAllNotes(req.user._id, query);
   }
 

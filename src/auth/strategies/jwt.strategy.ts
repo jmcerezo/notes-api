@@ -2,7 +2,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
-import { User } from './schemas/user.schema';
+import { User } from '../schemas/user.schema';
 import mongoose from 'mongoose';
 
 @Injectable()
@@ -14,15 +14,13 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(payload) {
-    const { id } = payload;
+  async validate(payload: any) {
+    const { sub } = payload;
 
-    const user = this.userModel.findById(id);
+    const user = this.userModel.findById(sub);
 
     if (!user) {
-      throw new UnauthorizedException(
-        'Please login first to access this endpoint.',
-      );
+      throw new UnauthorizedException();
     }
 
     return user;

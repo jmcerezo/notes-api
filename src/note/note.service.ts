@@ -4,15 +4,13 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import { Model, isValidObjectId } from 'mongoose';
 import { Note } from './schemas/note.schema';
-import mongoose from 'mongoose';
 import { User } from '../auth/schemas/user.schema';
 
 @Injectable()
 export class NoteService {
-  constructor(
-    @InjectModel(Note.name) private noteModel: mongoose.Model<Note>,
-  ) {}
+  constructor(@InjectModel(Note.name) private noteModel: Model<Note>) {}
 
   async createNote(note: Note, user: User): Promise<Note> {
     const data = Object.assign(note, { user: user._id });
@@ -52,7 +50,7 @@ export class NoteService {
   }
 
   async getNoteById(id: string): Promise<Note> {
-    const isValidId = mongoose.isValidObjectId(id);
+    const isValidId = isValidObjectId(id);
 
     if (!isValidId) {
       throw new BadRequestException('Please enter the correct id.');

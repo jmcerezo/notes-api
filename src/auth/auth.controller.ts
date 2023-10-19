@@ -4,8 +4,9 @@ import { SignUpDto } from './dto/signup.dto';
 import { LoginDto } from './dto/login.dto';
 import { ForgotPasswordDto } from './dto/forgot-password.dto';
 import { ResetPasswordDto } from './dto/reset-password.dto';
-import { Otp, JwtToken } from './return-types';
 import { User } from './schemas/user.schema';
+import { Jwt } from './types/Jwt';
+import { Otp } from './types/Otp';
 import {
   ApiCreatedResponse,
   ApiOkResponse,
@@ -20,16 +21,16 @@ export class AuthController {
 
   @Post('signup')
   @HttpCode(201)
-  @ApiCreatedResponse({ type: JwtToken })
-  async signUp(@Body() signUpDto: SignUpDto): Promise<JwtToken> {
+  @ApiCreatedResponse({ type: Jwt })
+  async signUp(@Body() signUpDto: SignUpDto): Promise<Jwt> {
     return await this.authService.signUp(signUpDto);
   }
 
   @Post('login')
   @HttpCode(200)
-  @ApiOkResponse({ type: JwtToken })
+  @ApiOkResponse({ type: Jwt })
   @ApiUnauthorizedResponse({ description: 'Incorrect email or password.' })
-  async login(@Body() loginDto: LoginDto): Promise<JwtToken> {
+  async login(@Body() loginDto: LoginDto): Promise<Jwt> {
     return await this.authService.login(loginDto);
   }
 
