@@ -133,10 +133,7 @@ describe('NoteService', () => {
       expect(noteModel.findByIdAndUpdate).toHaveBeenCalledWith(
         mockNote._id,
         note,
-        {
-          new: true,
-          runValidators: true,
-        },
+        { new: true },
       );
 
       expect(result.title).toEqual(note.title);
