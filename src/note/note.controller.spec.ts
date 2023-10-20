@@ -101,7 +101,7 @@ describe('NoteController', () => {
         note as UpdateNoteDto,
       );
 
-      expect(noteService.getNoteById).toHaveBeenCalled();
+      expect(noteService.updateNote).toHaveBeenCalled();
       expect(result).toEqual(updatedNote);
     });
   });
