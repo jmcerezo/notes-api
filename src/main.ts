@@ -11,7 +11,7 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .setTitle('Notes API')
-    .setDescription('NestJS CRUD API with JWT and Passport Authentication')
+    .setDescription('NestJS REST API with JWT and Passport Authentication')
     .setVersion('1.0')
     .addBearerAuth()
     .build();
