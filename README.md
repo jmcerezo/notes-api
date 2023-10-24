@@ -24,12 +24,12 @@
 
 ## Description
 
-CRUD API with JWT and Passport authentication
+REST API with JWT and Passport authentication
 
 ## Features
 
-* [Swagger UI](https://swagger.io/tools/swagger-ui/)
-* [MongoDB](https://www.mongodb.com/)
+- [Swagger UI](https://swagger.io/tools/swagger-ui/)
+- [MongoDB](https://www.mongodb.com/)
 
 ## Installation
 
