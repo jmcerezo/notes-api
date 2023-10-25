@@ -77,7 +77,7 @@ export class AuthService {
     const user = await this.userModel.findOne({ email });
 
     if (!user) {
-      throw new BadRequestException('Invalid email address.');
+      throw new BadRequestException('Email does not exist.');
     }
 
     const otp = this.generateOtp();

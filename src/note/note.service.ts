@@ -53,35 +53,47 @@ export class NoteService {
     const isValidId = isValidObjectId(id);
 
     if (!isValidId) {
-      throw new BadRequestException('Please enter the correct id.');
+      throw new BadRequestException('Please enter the valid id.');
     }
 
     const note = await this.noteModel.findById(id);
 
     if (!note) {
-      throw new NotFoundException("Note doesn't exist.");
+      throw new NotFoundException('Note does not exist.');
     }
 
     return note;
   }
 
   async updateNote(id: string, note: Note): Promise<Note> {
+    const isValidId = isValidObjectId(id);
+
+    if (!isValidId) {
+      throw new BadRequestException('Please enter the valid id.');
+    }
+
     const updatedNote = await this.noteModel.findByIdAndUpdate(id, note, {
       new: true,
     });
 
     if (!updatedNote) {
-      throw new NotFoundException("Note doesn't exist.");
+      throw new NotFoundException('Note does not exist.');
     }
 
     return updatedNote;
   }
 
   async deleteNote(id: string): Promise<Note> {
+    const isValidId = isValidObjectId(id);
+
+    if (!isValidId) {
+      throw new BadRequestException('Please enter the valid id.');
+    }
+
     const deletedNote = await this.noteModel.findByIdAndDelete(id);
 
     if (!deletedNote) {
-      throw new NotFoundException("Note doesn't exist.");
+      throw new NotFoundException('Note does not exist.');
     }
 
     return deletedNote;
