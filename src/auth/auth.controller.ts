@@ -17,8 +17,8 @@ import {
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger/dist';
 
-@ApiTags('auth')
 @Controller('auth')
+@ApiTags('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
