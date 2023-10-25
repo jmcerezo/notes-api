@@ -17,6 +17,7 @@ import { Note } from './schemas/note.schema';
 import { CreateNoteDto } from './dto/create-note.dto';
 import { UpdateNoteDto } from './dto/update-note.dto';
 import {
+  ApiBadRequestResponse,
   ApiBearerAuth,
   ApiCreatedResponse,
   ApiOkResponse,
@@ -25,17 +26,18 @@ import {
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 
-@ApiBearerAuth()
-@ApiTags('notes')
 @Controller('notes')
 @UseGuards(AuthGuard('jwt'))
+@ApiBearerAuth()
+@ApiTags('notes')
 export class NoteController {
   constructor(private noteService: NoteService) {}
 
   @Post()
   @HttpCode(201)
   @ApiCreatedResponse({ type: Note })
-  @ApiUnauthorizedResponse({ description: 'Unauthorized.' })
+  @ApiBadRequestResponse({ description: 'Error: Bad Request' })
+  @ApiUnauthorizedResponse({ description: 'Error: Unauthorized' })
   async createNote(
     @Body() createNoteDto: CreateNoteDto,
     @Req() req: any,
@@ -46,7 +48,8 @@ export class NoteController {
   @Get()
   @HttpCode(200)
   @ApiOkResponse({ type: Note })
-  @ApiUnauthorizedResponse({ description: 'Unauthorized.' })
+  @ApiBadRequestResponse({ description: 'Error: Bad Request' })
+  @ApiUnauthorizedResponse({ description: 'Error: Unauthorized' })
   @ApiQuery({ name: 'keyword', type: String, required: false })
   async getAllNotes(@Req() req: any, @Query() query: any): Promise<Note[]> {
     return await this.noteService.getAllNotes(req.user._id, query);
@@ -55,7 +58,8 @@ export class NoteController {
   @Get(':id')
   @HttpCode(200)
   @ApiOkResponse({ type: Note })
-  @ApiUnauthorizedResponse({ description: 'Unauthorized.' })
+  @ApiBadRequestResponse({ description: 'Error: Bad Request' })
+  @ApiUnauthorizedResponse({ description: 'Error: Unauthorized' })
   async getNoteById(@Param('id') id: string): Promise<Note> {
     return await this.noteService.getNoteById(id);
   }
@@ -63,7 +67,8 @@ export class NoteController {
   @Put(':id')
   @HttpCode(200)
   @ApiOkResponse({ type: Note })
-  @ApiUnauthorizedResponse({ description: 'Unauthorized.' })
+  @ApiBadRequestResponse({ description: 'Error: Bad Request' })
+  @ApiUnauthorizedResponse({ description: 'Error: Unauthorized' })
   async updateNote(
     @Param('id') id: string,
     @Body() updateNoteDto: UpdateNoteDto,
@@ -74,7 +79,8 @@ export class NoteController {
   @Delete(':id')
   @HttpCode(200)
   @ApiOkResponse({ type: Note })
-  @ApiUnauthorizedResponse({ description: 'Unauthorized.' })
+  @ApiBadRequestResponse({ description: 'Error: Bad Request' })
+  @ApiUnauthorizedResponse({ description: 'Error: Unauthorized' })
   async deleteNote(@Param('id') id: string): Promise<Note> {
     return await this.noteService.deleteNote(id);
   }

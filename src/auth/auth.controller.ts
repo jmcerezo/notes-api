@@ -8,7 +8,10 @@ import { User } from './schemas/user.schema';
 import { Jwt } from './types/Jwt';
 import { Otp } from './types/Otp';
 import {
+  ApiBadRequestResponse,
+  ApiConflictResponse,
   ApiCreatedResponse,
+  ApiNotFoundResponse,
   ApiOkResponse,
   ApiTags,
   ApiUnauthorizedResponse,
@@ -22,6 +25,8 @@ export class AuthController {
   @Post('signup')
   @HttpCode(201)
   @ApiCreatedResponse({ type: Jwt })
+  @ApiBadRequestResponse({ description: 'Error: Bad Request' })
+  @ApiConflictResponse({ description: 'Error: Conflict' })
   async signUp(@Body() signUpDto: SignUpDto): Promise<Jwt> {
     return await this.authService.signUp(signUpDto);
   }
@@ -29,7 +34,8 @@ export class AuthController {
   @Post('login')
   @HttpCode(200)
   @ApiOkResponse({ type: Jwt })
-  @ApiUnauthorizedResponse({ description: 'Incorrect email or password.' })
+  @ApiBadRequestResponse({ description: 'Error: Bad Request' })
+  @ApiUnauthorizedResponse({ description: 'Error: Unauthorized' })
   async login(@Body() loginDto: LoginDto): Promise<Jwt> {
     return await this.authService.login(loginDto);
   }
@@ -37,6 +43,8 @@ export class AuthController {
   @Post('forgot-password')
   @HttpCode(200)
   @ApiOkResponse({ type: Otp })
+  @ApiBadRequestResponse({ description: 'Error: Bad Request' })
+  @ApiNotFoundResponse({ description: 'Error: Not Found' })
   async forgotPassword(
     @Body() forgotPasswordDto: ForgotPasswordDto,
   ): Promise<Otp> {
@@ -46,6 +54,7 @@ export class AuthController {
   @Post('reset-password')
   @HttpCode(200)
   @ApiOkResponse()
+  @ApiBadRequestResponse({ description: 'Error: Bad Request' })
   async resetPassword(
     @Body() resetPasswordDto: ResetPasswordDto,
   ): Promise<User> {
