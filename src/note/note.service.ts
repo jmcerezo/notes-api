@@ -13,7 +13,7 @@ export class NoteService {
   constructor(@InjectModel(Note.name) private noteModel: Model<Note>) {}
 
   async createNote(note: Note, user: User): Promise<Note> {
-    const data = Object.assign(note, { user: user._id });
+    const data = Object.assign(note, { user_id: user._id });
 
     const createdNote = await this.noteModel.create(data);
 
@@ -42,7 +42,7 @@ export class NoteService {
 
     const notes = await this.noteModel
       .find({ ...keyword })
-      .where('user')
+      .where('user_id')
       .equals(user_id)
       .sort({ createdAt: -1 });
 

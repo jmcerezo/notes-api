@@ -1,18 +1,17 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmpty, IsNotEmpty, IsString } from 'class-validator';
-import { User } from '../../auth/schemas/user.schema';
 
 export class CreateNoteDto {
-  @ApiProperty()
+  @ApiProperty({ example: 'Example Note' })
   @IsNotEmpty()
   @IsString()
   readonly title: string;
 
-  @ApiProperty()
+  @ApiProperty({ example: 'This is an example.' })
   @IsNotEmpty()
   @IsString()
   readonly content: string;
 
   @IsEmpty({ message: 'You cannot pass user id.' })
-  readonly user: User;
+  readonly user_id: undefined;
 }
