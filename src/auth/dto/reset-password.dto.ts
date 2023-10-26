@@ -8,7 +8,6 @@ export class ResetPasswordDto {
 
   @ApiProperty()
   @IsNotEmpty()
-  @IsNotEmpty()
   @IsString()
   @MinLength(8)
   readonly newPassword: string;
