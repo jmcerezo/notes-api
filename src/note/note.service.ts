@@ -53,7 +53,7 @@ export class NoteService {
     const isValidId = isValidObjectId(id);
 
     if (!isValidId) {
-      throw new BadRequestException('Please enter the valid id.');
+      throw new BadRequestException('Please enter a valid id.');
     }
 
     const note = await this.noteModel.findById(id);
@@ -69,7 +69,7 @@ export class NoteService {
     const isValidId = isValidObjectId(id);
 
     if (!isValidId) {
-      throw new BadRequestException('Please enter the valid id.');
+      throw new BadRequestException('Please enter a valid id.');
     }
 
     const updatedNote = await this.noteModel.findByIdAndUpdate(id, note, {
@@ -87,7 +87,7 @@ export class NoteService {
     const isValidId = isValidObjectId(id);
 
     if (!isValidId) {
-      throw new BadRequestException('Please enter the valid id.');
+      throw new BadRequestException('Please enter a valid id.');
     }
 
     const deletedNote = await this.noteModel.findByIdAndDelete(id);
