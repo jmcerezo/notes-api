@@ -14,7 +14,7 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 import { NoteService } from './note.service';
 import { Note } from './schemas/note.schema';
-import { NoteDto } from './dto/note.dto';
+import { NoteEntity } from './entities/note.entity';
 import { CreateNoteDto } from './dto/create-note.dto';
 import { UpdateNoteDto } from './dto/update-note.dto';
 import {
@@ -36,7 +36,7 @@ export class NoteController {
 
   @Post()
   @HttpCode(201)
-  @ApiCreatedResponse({ type: NoteDto })
+  @ApiCreatedResponse({ type: NoteEntity })
   @ApiBadRequestResponse({ description: 'Error: Bad Request' })
   @ApiUnauthorizedResponse({ description: 'Error: Unauthorized' })
   async createNote(
@@ -48,7 +48,7 @@ export class NoteController {
 
   @Get()
   @HttpCode(200)
-  @ApiOkResponse({ type: NoteDto, isArray: true })
+  @ApiOkResponse({ type: NoteEntity, isArray: true })
   @ApiBadRequestResponse({ description: 'Error: Bad Request' })
   @ApiUnauthorizedResponse({ description: 'Error: Unauthorized' })
   @ApiQuery({ name: 'keyword', type: String, required: false })
@@ -58,7 +58,7 @@ export class NoteController {
 
   @Get(':id')
   @HttpCode(200)
-  @ApiOkResponse({ type: NoteDto })
+  @ApiOkResponse({ type: NoteEntity })
   @ApiBadRequestResponse({ description: 'Error: Bad Request' })
   @ApiUnauthorizedResponse({ description: 'Error: Unauthorized' })
   async getNoteById(@Param('id') id: string): Promise<Note> {
@@ -67,7 +67,7 @@ export class NoteController {
 
   @Put(':id')
   @HttpCode(200)
-  @ApiOkResponse({ type: NoteDto })
+  @ApiOkResponse({ type: NoteEntity })
   @ApiBadRequestResponse({ description: 'Error: Bad Request' })
   @ApiUnauthorizedResponse({ description: 'Error: Unauthorized' })
   async updateNote(
@@ -79,7 +79,7 @@ export class NoteController {
 
   @Delete(':id')
   @HttpCode(200)
-  @ApiOkResponse({ type: NoteDto })
+  @ApiOkResponse({ type: NoteEntity })
   @ApiBadRequestResponse({ description: 'Error: Bad Request' })
   @ApiUnauthorizedResponse({ description: 'Error: Unauthorized' })
   async deleteNote(@Param('id') id: string): Promise<Note> {
