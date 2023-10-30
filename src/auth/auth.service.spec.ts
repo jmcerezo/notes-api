@@ -8,6 +8,7 @@ import * as bcrypt from 'bcryptjs';
 import {
   BadRequestException,
   ConflictException,
+  NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
 
@@ -138,7 +139,7 @@ describe('AuthService', () => {
 
       await expect(
         authService.forgotPassword(forgotPasswordDto),
-      ).rejects.toThrow(BadRequestException);
+      ).rejects.toThrow(NotFoundException);
 
       expect(userModel.findOne).toHaveBeenLastCalledWith(forgotPasswordDto);
     });
