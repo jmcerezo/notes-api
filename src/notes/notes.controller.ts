@@ -32,7 +32,7 @@ import {
 @ApiBearerAuth()
 @ApiTags('notes')
 export class NotesController {
-  constructor(private noteService: NotesService) {}
+  constructor(private notesService: NotesService) {}
 
   @Post()
   @HttpCode(201)
@@ -43,7 +43,7 @@ export class NotesController {
     @Body() createNoteDto: CreateNoteDto,
     @Req() req: any,
   ): Promise<Note> {
-    return await this.noteService.createNote(createNoteDto, req.user);
+    return await this.notesService.createNote(createNoteDto, req.user);
   }
 
   @Get()
@@ -53,7 +53,7 @@ export class NotesController {
   @ApiUnauthorizedResponse({ description: 'Error: Unauthorized' })
   @ApiQuery({ name: 'keyword', type: String, required: false })
   async getAllNotes(@Req() req: any, @Query() query: any): Promise<Note[]> {
-    return await this.noteService.getAllNotes(req.user._id, query);
+    return await this.notesService.getAllNotes(req.user._id, query);
   }
 
   @Get(':id')
@@ -62,7 +62,7 @@ export class NotesController {
   @ApiBadRequestResponse({ description: 'Error: Bad Request' })
   @ApiUnauthorizedResponse({ description: 'Error: Unauthorized' })
   async getNoteById(@Param('id') id: string): Promise<Note> {
-    return await this.noteService.getNoteById(id);
+    return await this.notesService.getNoteById(id);
   }
 
   @Put(':id')
@@ -74,7 +74,7 @@ export class NotesController {
     @Param('id') id: string,
     @Body() updateNoteDto: UpdateNoteDto,
   ): Promise<Note> {
-    return await this.noteService.updateNote(id, updateNoteDto);
+    return await this.notesService.updateNote(id, updateNoteDto);
   }
 
   @Delete(':id')
@@ -83,6 +83,6 @@ export class NotesController {
   @ApiBadRequestResponse({ description: 'Error: Bad Request' })
   @ApiUnauthorizedResponse({ description: 'Error: Unauthorized' })
   async deleteNote(@Param('id') id: string): Promise<Note> {
-    return await this.noteService.deleteNote(id);
+    return await this.notesService.deleteNote(id);
   }
 }
