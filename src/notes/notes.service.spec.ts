@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { NoteService } from './note.service';
+import { NotesService } from './notes.service';
 import mongoose, { Model } from 'mongoose';
 import { Note } from './schemas/note.schema';
 import { User } from '../auth/schemas/user.schema';
@@ -7,8 +7,8 @@ import { getModelToken } from '@nestjs/mongoose';
 import { CreateNoteDto } from './dto/create-note.dto';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 
-describe('NoteService', () => {
-  let noteService: NoteService;
+describe('NotesService', () => {
+  let noteService: NotesService;
   let noteModel: Model<Note>;
 
   const mockNote = {
@@ -35,12 +35,12 @@ describe('NoteService', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        NoteService,
+        NotesService,
         { provide: getModelToken(Note.name), useValue: mockNoteService },
       ],
     }).compile();
 
-    noteService = module.get<NoteService>(NoteService);
+    noteService = module.get<NotesService>(NotesService);
     noteModel = module.get<Model<Note>>(getModelToken(Note.name));
   });
 

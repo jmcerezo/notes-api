@@ -12,7 +12,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { NoteService } from './note.service';
+import { NotesService } from './notes.service';
 import { Note } from './schemas/note.schema';
 import { NoteEntity } from './entities/note.entity';
 import { CreateNoteDto } from './dto/create-note.dto';
@@ -31,8 +31,8 @@ import {
 @UseGuards(AuthGuard('jwt'))
 @ApiBearerAuth()
 @ApiTags('notes')
-export class NoteController {
-  constructor(private noteService: NoteService) {}
+export class NotesController {
+  constructor(private noteService: NotesService) {}
 
   @Post()
   @HttpCode(201)

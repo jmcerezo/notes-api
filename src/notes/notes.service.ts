@@ -9,7 +9,7 @@ import { Note } from './schemas/note.schema';
 import { User } from '../auth/schemas/user.schema';
 
 @Injectable()
-export class NoteService {
+export class NotesService {
   constructor(@InjectModel(Note.name) private noteModel: Model<Note>) {}
 
   async createNote(note: Note, user: User): Promise<Note> {

@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { NoteService } from './note.service';
-import { NoteController } from './note.controller';
+import { NotesService } from './notes.service';
+import { NotesController } from './notes.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Note, NoteSchema } from './schemas/note.schema';
 
@@ -8,7 +8,7 @@ import { Note, NoteSchema } from './schemas/note.schema';
   imports: [
     MongooseModule.forFeature([{ name: Note.name, schema: NoteSchema }]),
   ],
-  controllers: [NoteController],
-  providers: [NoteService],
+  controllers: [NotesController],
+  providers: [NotesService],
 })
-export class NoteModule {}
+export class NotesModule {}

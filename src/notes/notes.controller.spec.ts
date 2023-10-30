@@ -1,14 +1,14 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { NoteController } from './note.controller';
-import { NoteService } from './note.service';
+import { NotesController } from './notes.controller';
+import { NotesService } from './notes.service';
 import { PassportModule } from '@nestjs/passport';
 import { User } from '../auth/schemas/user.schema';
 import { CreateNoteDto } from './dto/create-note.dto';
 import { UpdateNoteDto } from './dto/update-note.dto';
 
-describe('NoteController', () => {
-  let noteController: NoteController;
-  let noteService: NoteService;
+describe('NotesController', () => {
+  let noteController: NotesController;
+  let noteService: NotesService;
 
   const mockNote = {
     _id: '64dada20aa6b96af74cd6a1c',
@@ -34,12 +34,12 @@ describe('NoteController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [PassportModule.register({ defaultStrategy: 'jwt' })],
-      controllers: [NoteController],
-      providers: [{ provide: NoteService, useValue: mockNoteService }],
+      controllers: [NotesController],
+      providers: [{ provide: NotesService, useValue: mockNoteService }],
     }).compile();
 
-    noteController = module.get<NoteController>(NoteController);
-    noteService = module.get<NoteService>(NoteService);
+    noteController = module.get<NotesController>(NotesController);
+    noteService = module.get<NotesService>(NotesService);
   });
 
   it('should be defined', () => {
