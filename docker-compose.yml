@@ -7,6 +7,8 @@ services:
       - mongo-db:/data/db
   api:
     build: .
+    depends_on:
+      - mongo-db
     ports:
       - 3003:3000
     environment:
