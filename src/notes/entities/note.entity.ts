@@ -11,7 +11,7 @@ export class NoteEntity {
   readonly content: string;
 
   @ApiProperty({ example: '6523f41d1325dbb5e5d71547' })
-  readonly user_id: string;
+  readonly user: string;
 
   @ApiProperty({ example: '2023-10-10T16:38:43.070Z' })
   readonly createdAt: Date;
