@@ -90,7 +90,9 @@ export class NotesService {
       throw new BadRequestException('Please enter a valid id.');
     }
 
-    const deletedNote = await this.noteModel.findByIdAndDelete(id);
+    const deletedNote = await this.noteModel.findByIdAndDelete(id, {
+      new: true,
+    });
 
     if (!deletedNote) {
       throw new NotFoundException('Note does not exist.');
