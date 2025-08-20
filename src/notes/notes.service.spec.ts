@@ -76,7 +76,7 @@ describe('NotesService', () => {
                 sort: jest.fn().mockResolvedValue([mockNote]),
               }),
             }),
-          } as any),
+          }) as any,
       );
 
       const result = await noteService.getAllNotes(mockUser._id, query);
@@ -146,7 +146,9 @@ describe('NotesService', () => {
 
       const result = await noteService.deleteNote(mockNote._id);
 
-      expect(noteModel.findByIdAndDelete).toHaveBeenCalledWith(mockNote._id);
+      expect(noteModel.findByIdAndDelete).toHaveBeenCalledWith(mockNote._id, {
+        new: true,
+      });
 
       expect(result).toEqual(mockNote);
     });
