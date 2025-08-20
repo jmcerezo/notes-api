@@ -18,7 +18,7 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config, {
     include: [AuthModule, NotesModule],
   });
-  SwaggerModule.setup('/', app, document, {
+  SwaggerModule.setup('/api', app, document, {
     customSiteTitle: 'Notes API - Swagger UI',
   });
 
